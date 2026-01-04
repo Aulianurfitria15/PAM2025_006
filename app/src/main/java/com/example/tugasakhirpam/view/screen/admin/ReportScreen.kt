@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -44,20 +45,26 @@ fun ReportScreen(
     val top3Genre by viewModel.top3Genre.collectAsState()
 
     Scaffold(
+        containerColor = Color(0xFF4F5F59), // 🔥 background utama
         topBar = {
             TopAppBar(
-                title = { Text("Laporan") },
+                title = { Text("Laporan", color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = Color.White
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF4F5F59)
+                )
             )
         }
-    ) { padding ->
+    )
+    { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
@@ -67,32 +74,39 @@ fun ReportScreen(
 
             Text(
                 text = "Ringkasan Data",
+                color = Color.White,
                 style = MaterialTheme.typography.titleMedium
             )
+
 
             Spacer(modifier = Modifier.height(12.dp))
 
             ReportCard(
                 title = "Total Film",
-                value = total.toString()
+                value = total.toString(),
+                backgroundColor = Color(0xFFB8484E) // 🔥 merah
             )
 
             ReportCard(
                 title = "Genre Terbanyak",
-                value = if (topGenre.isBlank()) "-" else topGenre
+                value = if (topGenre.isBlank()) "-" else topGenre,
+                backgroundColor = Color(0xFFB8484E) // 🔥 merah
             )
 
             ReportCard(
                 title = "Rating Tertinggi",
-                value = topRating.toString()
+                value = topRating.toString(),
+                backgroundColor = Color(0xFFB8484E) // 🔥 merah
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "Diagram Batang",
+                text = "Ringkasan Data",
+                color = Color.White,
                 style = MaterialTheme.typography.titleMedium
             )
+
 
             Spacer(modifier = Modifier.height(8.dp))
 
