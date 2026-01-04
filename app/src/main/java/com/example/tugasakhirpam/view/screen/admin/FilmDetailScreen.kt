@@ -1,6 +1,7 @@
 package com.example.tugasakhirpam.view.screen.admin
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -13,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -54,59 +56,131 @@ fun FilmDetailScreen(
         )
     }
     Scaffold(
+        containerColor = Color(0xFF4F5F59), // 🔥 background hijau tema
         topBar = {
             TopAppBar(
-                title = { Text(film?.title ?: "Detail Film") },
+                title = {
+                    Text(
+                        film?.title ?: "Detail Film",
+                        color = Color.White
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali")
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Kembali",
+                            tint = Color.White
+                        )
                     }
                 },
                 actions = {
-                    // Tombol Edit
                     IconButton(onClick = { onEditClick(filmId) }) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit Film")
+                        Icon(
+                            Icons.Default.Edit,
+                            contentDescription = "Edit Film",
+                            tint = Color(0xFFB8484E) // merah
+                        )
                     }
-                    // Tombol Hapus
-                    IconButton(onClick = {
-                        showDeleteDialog = true // Kembali setelah hapus
-                    }) {
-                        Icon(Icons.Default.Delete, contentDescription = "Hapus Film")
+                    IconButton(onClick = { showDeleteDialog = true }) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = "Hapus Film",
+                            tint = Color(0xFFB8484E) // merah
+                        )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF4F5F59) // 🔥 hijau
+                )
             )
         }
-    ) { padding ->
+    )
+    { padding ->
         film?.let { filmDetail ->
             Column(
                 modifier = Modifier
                     .padding(padding)
                     .padding(16.dp)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .fillMaxSize()
             ) {
+
+                // 🖼️ POSTER
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(filmDetail.poster)
                         .crossfade(true)
                         .build(),
-                    contentDescription = "Poster ${filmDetail.title}",
+                    contentDescription = filmDetail.title,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp),
+                        .height(260.dp)
+                        .padding(bottom = 12.dp),
                     contentScale = ContentScale.Crop
                 )
-                Text(filmDetail.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                Text("Genre: ${filmDetail.genre}")
-                Text("Tahun Rilis: ${filmDetail.year}")
-                Text("Rating: ${filmDetail.rating}")
-                Text("Deskripsi:", fontWeight = FontWeight.SemiBold)
-                Text(filmDetail.description)
+
+                // 📦 CARD PUTIH (SAMA KAYA USER)
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(6.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+
+                        // 🔝 JUDUL + RATING
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = filmDetail.title,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Surface(
+                                color = Color(0xFFFFC107),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    text = "⭐ ${filmDetail.rating}",
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
+
+                        Text(
+                            text = "${filmDetail.genre} • ${filmDetail.year}",
+                            color = Color.Gray,
+                            fontSize = 14.sp
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = "Deskripsi",
+                            fontWeight = FontWeight.SemiBold
+                        )
+
+                        Text(
+                            text = filmDetail.description,
+                            fontSize = 14.sp,
+                            color = Color.DarkGray
+                        )
+                    }
+                }
             }
         }
     }
 }
-@Composable
+
+        @Composable
 private fun DeleteConfirmationDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
