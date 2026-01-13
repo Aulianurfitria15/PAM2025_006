@@ -110,7 +110,10 @@ fun FilmListAdminScreen(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(films) { film ->
+                items(
+                    items = films,
+                    key = { film -> film.id }
+                ) { film ->
                     FilmCard(
                         film = film,
                         onClick = { onEditClick(film.id) }
