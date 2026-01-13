@@ -1,6 +1,8 @@
 package com.example.tugasakhirpam.view.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,14 +32,21 @@ fun FilmCard(
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column {
-            AsyncImage(
-                model = film.poster,
-                contentDescription = film.title,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
-                contentScale = ContentScale.Crop
-            )
+                    .height(200.dp)
+                    .background(Color.LightGray)
+            ) {
+                AsyncImage(
+                    model = film.poster,
+                    contentDescription = film.title,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.Crop
+                )
+            }
 
             Column(modifier = Modifier.padding(12.dp)) {
                 Text(
@@ -53,7 +62,7 @@ fun FilmCard(
 
                 Text(
                     "Rating: ${film.rating}",
-                    color = Color(0xFFB8484E), // 🔥 aksen merah
+                    color = Color(0xFFB8484E),
                     fontWeight = FontWeight.SemiBold
                 )
 
