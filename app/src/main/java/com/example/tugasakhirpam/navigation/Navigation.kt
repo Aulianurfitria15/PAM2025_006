@@ -30,6 +30,7 @@ fun AppNavigation() {
     val filmViewModel = PenyediaViewModel.provideFilmViewModel(context)
     val authViewModel = PenyediaViewModel.provideAuthViewModel(context)
 
+
     NavHost(
         navController = navController,
         startDestination = "login"
@@ -146,7 +147,7 @@ fun AppNavigation() {
 
             AddFilmScreen(
                 viewModel = filmViewModel,
-                filmId = filmId,
+                //filmId = filmId,
                 onBack = {
                     navController.popBackStack()
                 }
