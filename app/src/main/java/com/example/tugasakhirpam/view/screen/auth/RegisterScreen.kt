@@ -2,7 +2,6 @@ package com.example.tugasakhirpam.view.screen.auth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,19 +15,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.PersonOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import com.example.tugasakhirpam.viewmodel.AuthViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
     authViewModel: AuthViewModel,
@@ -50,9 +42,6 @@ fun RegisterScreen(
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
-    var expanded by remember { mutableStateOf(false) }
-    var role by remember { mutableStateOf("user") }
 
     Column(
         modifier = Modifier
@@ -64,7 +53,7 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(64.dp))
 
-        // 🔺 LOGO (placeholder)
+        // 🔺 LOGO
         Icon(
             imageVector = Icons.Default.Movie,
             contentDescription = null,
@@ -125,61 +114,12 @@ fun RegisterScreen(
             singleLine = true
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // 🔹 ROLE DROPDOWN
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
-        ) {
-            OutlinedTextField(
-                value = role,
-                onValueChange = {},
-                readOnly = true,
-                placeholder = { Text("Role") },
-                leadingIcon = {
-                    Icon(Icons.Default.PersonOutline, contentDescription = null)
-                },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White,
-                    focusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(12.dp)
-            )
-
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("user") },
-                    onClick = {
-                        role = "user"
-                        expanded = false
-                    }
-                )
-                DropdownMenuItem(
-                    text = { Text("admin") },
-                    onClick = {
-                        role = "admin"
-                        expanded = false
-                    }
-                )
-            }
-        }
-
         Spacer(modifier = Modifier.height(32.dp))
 
         // 🔴 BUTTON DAFTAR
         Button(
             onClick = {
-                authViewModel.register(username, password, role)
+                authViewModel.register(username, password, "user")
                 onLoginClick()
             },
             modifier = Modifier
