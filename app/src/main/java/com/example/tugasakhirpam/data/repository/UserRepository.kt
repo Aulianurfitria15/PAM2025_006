@@ -14,4 +14,8 @@ class UserRepository(
     suspend fun login(username: String, password: String): User? {
         return userDao.login(username, password)
     }
+
+    suspend fun checkUserExists(username: String): User? {
+        return userDao.checkUserExists(username)
+    }
 }
