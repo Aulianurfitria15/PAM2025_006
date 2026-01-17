@@ -32,9 +32,12 @@ fun FilmDetailScreen(
     onEditClick: (Int) -> Unit,
     onDeleteConfirm: () -> Unit
 ) {
+    //AMBIL DATA FILM DARI VIEWMODEL
     val film by viewModel.getFilmById(filmId).collectAsState(initial = null)
+    //STATE DIALOG HAPUS
     var showDeleteDialog by remember { mutableStateOf(false) }
 
+    //alur dialog hapus
     if (showDeleteDialog) {
         DeleteConfirmationDialog(
             onConfirm = {
@@ -49,6 +52,8 @@ fun FilmDetailScreen(
             }
         )
     }
+
+    //kerangka yg mengatur tampilan layar
     Scaffold(
         containerColor = Color(0xFF4F5F59),
         topBar = {
@@ -69,6 +74,7 @@ fun FilmDetailScreen(
                     }
                 },
                 actions = {
+                    //halaman edit
                     IconButton(onClick = { onEditClick(filmId) }) {
                         Icon(
                             Icons.Default.Edit,
@@ -76,6 +82,7 @@ fun FilmDetailScreen(
                             tint = Color(0xFFB8484E)
                         )
                     }
+                    //buka dialog hapus
                     IconButton(onClick = { showDeleteDialog = true }) {
                         Icon(
                             Icons.Default.Delete,
@@ -107,6 +114,7 @@ fun FilmDetailScreen(
                         .padding(bottom = 12.dp)
                         .background(Color.LightGray, RoundedCornerShape(8.dp))
                 ) {
+                    //poster film
                     AsyncImage(
                         model = filmDetail.poster,
                         contentDescription = filmDetail.title,
@@ -117,6 +125,7 @@ fun FilmDetailScreen(
                     )
                 }
 
+                //Membungkus informasi film biar rapi & modern
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
@@ -139,7 +148,7 @@ fun FilmDetailScreen(
                                 fontWeight = FontWeight.Bold
                             )
 
-                            Surface(
+                            Surface( //Rating ditampilkan dalam badge kuning
                                 color = Color(0xFFFFC107),
                                 shape = RoundedCornerShape(8.dp)
                             ) {
@@ -153,7 +162,7 @@ fun FilmDetailScreen(
                         }
 
                         Text(
-                            text = "${filmDetail.genre} • ${filmDetail.year}",
+                            text = "${filmDetail.genre} • ${filmDetail.year}", //Info singkat metadata film
                             color = Color.Gray,
                             fontSize = 14.sp
                         )
@@ -182,6 +191,7 @@ private fun DeleteConfirmationDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    //DELETE CONFIRMATION DIALOG, Mencegah hapus tidak sengaja
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Konfirmasi Hapus") },

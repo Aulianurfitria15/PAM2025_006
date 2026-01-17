@@ -54,8 +54,7 @@ import com.example.tugasakhirpam.viewmodel.FilmViewModel
 import java.io.File
 
 
-// Fungsi helper untuk menyimpan foto ke internal storage
-fun savePosterImage(context: Context, uri: Uri): String {
+fun savePosterImage(context: Context, uri: Uri): String { //Menyimpan gambar poster ke internal storage aplikasi
     val inputStream = context.contentResolver.openInputStream(uri) ?: return ""
     val fileName = "poster_${System.currentTimeMillis()}.jpg"
     val file = File(context.filesDir, fileName)
@@ -72,20 +71,20 @@ fun savePosterImage(context: Context, uri: Uri): String {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddFilmScreen(
-    viewModel: FilmViewModel,
-    onBack: () -> Unit
+    viewModel: FilmViewModel, //untuk insert data film baru
+    onBack: () -> Unit //untuk navigasi kembali ke layar sebelumnya
 ) {
-    var title by remember { mutableStateOf("") }
-    var genre by remember { mutableStateOf("") }
-    var year by remember { mutableStateOf("") }
-    var rating by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var posterUri by remember { mutableStateOf<Uri?>(null) }
-    var posterPath by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf("") } //state untuk menyimpan input judul film
+    var genre by remember { mutableStateOf("") } //state untuk menyimpan input genre film
+    var year by remember { mutableStateOf("") } //state untuk menyimpan input tahun film
+    var rating by remember { mutableStateOf("") } //state untuk menyimpan input rating film
+    var description by remember { mutableStateOf("") }//state untuk menyimpan input deskripsi film
+    var posterUri by remember { mutableStateOf<Uri?>(null) } //state untuk menyimpan URI poster film yang diupload
+    var posterPath by remember { mutableStateOf("") } //state untuk menyimpan path poster film yang disimpan di internal storage
 
     val context = LocalContext.current
 
-    // Launcher untuk membuka file picker
+    // Launcher untuk mengambil foto dari galeri hp
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -97,12 +96,12 @@ fun AddFilmScreen(
         }
     }
 
-    Scaffold(
+    Scaffold( //kerangka layar
         containerColor = Color(0xFF4F5F59),
         topBar = {
             TopAppBar(
-                title = { Text("Tambah Film", color = Color.White) },
-                navigationIcon = {
+                title = { Text("Tambah Film", color = Color.White) }, //judul app bar
+                navigationIcon = { //ikon navigasi kembali
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -125,9 +124,7 @@ fun AddFilmScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            // Section Upload Foto
-
-
+            //Mengambil input data film dari admin
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
@@ -144,6 +141,7 @@ fun AddFilmScreen(
                 singleLine = true
             )
 
+            //INPUT GENRE
             OutlinedTextField(
                 value = genre,
                 onValueChange = { genre = it },
@@ -166,6 +164,7 @@ fun AddFilmScreen(
                 singleLine = true
             )
 
+            //INPUT TAHUN
             OutlinedTextField(
                 value = year,
                 onValueChange = { year = it },
@@ -188,6 +187,7 @@ fun AddFilmScreen(
                 singleLine = true
             )
 
+            //INPUT RATING
             OutlinedTextField(
                 value = rating,
                 onValueChange = { rating = it },
@@ -206,6 +206,7 @@ fun AddFilmScreen(
                 singleLine = true
             )
 
+            //INPUT DESKRIPSI
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
@@ -238,7 +239,7 @@ fun AddFilmScreen(
             ) {
                 if (posterUri != null) {
                     // Tampilkan preview gambar
-                    Image(
+                    Image( //menampilkan preview poster yang diupload
                         painter = rememberAsyncImagePainter(posterUri),
                         contentDescription = "Preview Poster",
                         modifier = Modifier.fillMaxWidth(),

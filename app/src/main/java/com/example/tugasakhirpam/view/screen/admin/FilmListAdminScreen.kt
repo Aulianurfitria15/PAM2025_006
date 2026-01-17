@@ -46,15 +46,17 @@ fun FilmListAdminScreen(
     onEditClick: (Int) -> Unit,
     onBack: () -> Unit
 ) {
+    //Menyimpan teks yang diketik di kolom search
     var keyword by remember { mutableStateOf("") }
 
     val films by if (keyword.isEmpty()) {
-        viewModel.filmList.collectAsState(initial = emptyList())
+        viewModel.filmList.collectAsState(initial = emptyList()) //Ambil SEMUA FILM
     } else {
-        viewModel.searchFilm(keyword)
+        viewModel.searchFilm(keyword) //Ambil film yang sesuai keyword
             .collectAsState(initial = emptyList())
     }
 
+    //kerangka dasar screen
     Scaffold(
         containerColor = Color(0xFF4F5F59), // background hijau
         topBar = {
@@ -63,8 +65,9 @@ fun FilmListAdminScreen(
                 onBack = onBack
             )
         },
+
         floatingActionButton = {
-            FloatingActionButton(
+            FloatingActionButton( //Tambah film baru
                 onClick = onAddClick,
                 containerColor = Color(0xFFB8484E), // merah
                 contentColor = Color.White
@@ -79,7 +82,7 @@ fun FilmListAdminScreen(
                 .padding(16.dp)
         ) {
 
-            // SEARCH
+            // Input kata kunci pencarian
             OutlinedTextField(
                 value = keyword,
                 onValueChange = { keyword = it },

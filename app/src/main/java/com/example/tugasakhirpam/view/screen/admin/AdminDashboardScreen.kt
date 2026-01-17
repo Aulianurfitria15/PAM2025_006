@@ -35,12 +35,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tugasakhirpam.view.component.AppTopBar
 
+// Admin Dashboard Screen
 @Composable
 fun AdminDashboardScreen(
-    onKelolaFilm: () -> Unit,
-    onReport: () -> Unit,
-    onLogout: () -> Unit
+    onKelolaFilm: () -> Unit, //fungsi navigasi ke kelola film
+    onReport: () -> Unit, //fungsi navigasi ke laporan
+    onLogout: () -> Unit //fungsi logout
 ) {
+
+    //wadah untuk menampilkan jduul dan tombol logout
     Scaffold(
         containerColor = Color(0xFF4F5F59), // warna background ijo
         topBar = {
@@ -51,6 +54,7 @@ fun AdminDashboardScreen(
         }
     ) { padding ->
 
+        //konten disusun secara vertikal
         Column(
             modifier = Modifier
                 .padding(padding)
@@ -69,7 +73,7 @@ fun AdminDashboardScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            //CARD: KELOLA FILM
+            //CARD Kelola Film
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -104,6 +108,7 @@ fun AdminDashboardScreen(
 
                     Spacer(modifier = Modifier.width(16.dp))
 
+                    //text kelola film
                     Column {
                         Text(
                             text = "Kelola Film",

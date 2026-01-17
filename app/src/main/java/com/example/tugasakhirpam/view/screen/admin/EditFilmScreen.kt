@@ -61,7 +61,7 @@ fun EditFilmScreen(
     var year by remember(film) { mutableStateOf(film?.year?.toString() ?: "") }
     var rating by remember(film) { mutableStateOf(film?.rating?.toString() ?: "") }
     var description by remember(film) { mutableStateOf(film?.description ?: "") }
-    var poster by remember(film) { mutableStateOf(film?.poster ?: "") }
+    //var poster by remember(film) { mutableStateOf(film?.poster ?: "") }
     var posterUri by remember { mutableStateOf<Uri?>(null) }
     var posterPath by remember(film) { mutableStateOf(film?.poster ?: "") }
 
